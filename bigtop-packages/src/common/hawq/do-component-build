@@ -34,6 +34,20 @@ cd ${CWD}
 ldconfig $CWD/libyarn/lib
 ## libyarn should be available in the system at this point
 
+## build libhdfs3
+wget https://github.com/PivotalRD/libhdfs3/archive/v2.2.31.tar.gz
+tar zxf v2.2.31.tar.gz
+cd libhdfs3-2.2.31
+mkdir -p build
+cd build
+../bootstrap
+make rpm-package
+## need to run diff target for deb and rpm. Figure out how
+cd ${CWD}
+# now something like
+# rpm -ivh rpms/RPMS/`uname -p`/*rpm
+## libhdfs3 libhdfs3-devel should be available now
+
 echo "Running the native build"
 date;
 ./configure --prefix=${CWD}/hawq \

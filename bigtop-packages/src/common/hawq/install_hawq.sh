@@ -126,6 +126,7 @@ cp -ar $UNZIP_DIR/docs $PREFIX/$DOC_DIR
 
 cp -ar $UNZIP_DIR/../libyarn/* $PREFIX/$LIB_DIR
 
+sed -i -e 's#source %s/greenplum_path.sh" % hawq_home#source /etc/default/hawq#' $PREFIX/$BIN_DIR/hawq
 ln -s $ETC_DIR/conf $PREFIX/$LIB_DIR/config
 ## HAWQ-422 configs are expected to sit in this hardcoded locations ;(
 ln -s $ETC_DIR/conf $PREFIX/$LIB_DIR/etc
@@ -141,7 +142,7 @@ BIGTOP_DEFAULTS_DIR=\${BIGTOP_DEFAULTS_DIR-/etc/default}
 [ -n "\${BIGTOP_DEFAULTS_DIR}" -a -r \${BIGTOP_DEFAULTS_DIR}/hadoop ] && . \${BIGTOP_DEFAULTS_DIR}/hadoop
 [ -n "\${BIGTOP_DEFAULTS_DIR}" -a -r \${BIGTOP_DEFAULTS_DIR}/hawq ] && .  \${BIGTOP_DEFAULTS_DIR}/hawq
 
-exec /usr/lib/hawq/bin/hawq \$1 hawq
+exec /usr/lib/hawq/bin/hawq \$@
 EOF
 chmod 755 $wrapper
 
