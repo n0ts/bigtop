@@ -18,6 +18,7 @@ DESC="hawq master daemon"
 EXEC_PATH="\${HAWQ_HOME}/bin/hawq"
 SVC_USER="hawq"
 PIDFILE="\${HAWQ_PID_DIR}/${DAEMON}.pid"
+SVC_OPTS="-l \${HAWQ_LOG_DIR}"
 
 generate_start() {
 
@@ -33,7 +34,7 @@ start() {
         exit 0
     fi
 
-    su -s /bin/bash ${SVC_USER} -c "${EXEC_PATH} start ${DAEMON}"
+    su -s /bin/bash ${SVC_USER} -c "${EXEC_PATH} start master $SVC_OPTS"
 
     checkstatusofproc
     RETVAL=$?
@@ -50,7 +51,7 @@ cat <<'__EOT__'
 stop() {
     log_success_msg "Stopping $DESC (${DAEMON}): "
 
-    su -s /bin/bash ${SVC_USER} -c "${EXEC_PATH} stop ${DAEMON}"
+    su -s /bin/bash ${SVC_USER} -c "${EXEC_PATH} stop master $SVC_OPTS"
 
     sleep 3
     RETVAL=$?
