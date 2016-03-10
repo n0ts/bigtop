@@ -126,12 +126,12 @@ cp -ar $UNZIP_DIR/docs $PREFIX/$DOC_DIR
 
 cp -ar $UNZIP_DIR/../libyarn/* $PREFIX/$LIB_DIR
 
-sed -i -e 's#source %s/greenplum_path.sh" % hawq_home#source /etc/default/hawq#' $PREFIX/$BIN_DIR/hawq
+#sed -i -e 's#source %s/greenplum_path.sh" % hawq_home#source /etc/default/hawq#' $PREFIX/$BIN_DIR/hawq
 ln -s $ETC_DIR/conf $PREFIX/$LIB_DIR/config
 ## HAWQ-422 configs are expected to sit in this hardcoded locations ;(
 ln -s $ETC_DIR/conf $PREFIX/$LIB_DIR/etc
 # HAWQ-421
-ln -s $ETC_DIR/default/hawq $PREFIX/$LIB_DIR/greenplum_path.sh
+ln -s /etc/default/hawq $PREFIX/$LIB_DIR/greenplum_path.sh
 
 ## Put a wrapper to source the defaults and then run init script for particular object
 wrapper=$PREFIX/usr/lib/hawq/bin/lib/run-init.sh
