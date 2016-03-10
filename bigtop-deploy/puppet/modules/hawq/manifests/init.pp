@@ -99,16 +99,16 @@ class hawq {
 
 ### TODO init require hdfs to be running. Need to test this
     exec { "hawk init master":
-      path 	 => ['/usr/bin'],
+      path 	 => ['/usr/bin', '/usr/lib/hawq/bin/lib'],
       # Silly init will ask if I am really sure I want to init the cluster
-      command	 => 'echo y | bash -x /usr/bin/hawq init master',
+      command	 => 'bash -x run-init.sh master',
       require	 => [ Package['hawq'], Exec ['install pygresql modules2'] ],
     }
 
 ## TODO The expectation is that init will start the service. I don't think so...
     service { "hawq":
       ensure  => running,
-      require => [ Package["hawq"], File["/etc/default/hawq"], Exec["hawk init"] ],
+      require => [ Package["hawq"], File["/etc/default/hawq"], Exec["hawk init master"] ],
       subscribe => [ Package["hawq"], File["/etc/default/hawq", "/etc/hawq/conf/hawq-site.xml"] ]
     }
   }

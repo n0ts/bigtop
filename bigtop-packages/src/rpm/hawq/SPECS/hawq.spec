@@ -22,7 +22,7 @@
 %define pids_hawq %{hawq_home}/pids
 %define man_dir %{_mandir}
 %define hawq_username hawq
-%define vcs_tag incubator-%{name}-%{hawq_version}-beta-incubating-RC4
+%define vcs_tag incubator-%{name}-master
 
 %define pxf %{hawq_home}/pxf
 

@@ -133,6 +133,20 @@ ln -s $ETC_DIR/conf $PREFIX/$LIB_DIR/etc
 # HAWQ-421
 ln -s $ETC_DIR/default/hawq $PREFIX/$LIB_DIR/greenplum_path.sh
 
+## Put a wrapper to source the defaults and then run init script for particular object
+wrapper=$PREFIX/usr/lib/hawq/bin/lib/run-init.sh
+mkdir -p `dirname $wrapper`
+cat > $wrapper <<EOF
+#!/bin/bash
+
+BIGTOP_DEFAULTS_DIR=\${BIGTOP_DEFAULTS_DIR-/etc/default}
+[ -n "\${BIGTOP_DEFAULTS_DIR}" -a -r \${BIGTOP_DEFAULTS_DIR}/hawq ] && .  \${BIGTOP_DEFAULTS_DIR}/hawq
+
+bash -x /usr/lib/hawq/bin/lib/hawqinit.sh $* $HAWQ_HOME
+
+EOF
+chmod 755 $wrapper
+
 wrapper=$PREFIX/usr/bin/hawq
 mkdir -p `dirname $wrapper`
 cat > $wrapper <<EOF
