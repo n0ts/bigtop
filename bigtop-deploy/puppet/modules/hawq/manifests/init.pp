@@ -70,6 +70,16 @@ class hawq {
         content => "localhost", ## TODO - this has to be dynamic
     }
 
+    file { "/etc/sysctl.conf":
+	# TODO overriding sysctl might be a somewhat dangerous, let's figure something better
+        content => template('hawq/ysysctl.conf'),
+    }
+    exec { "sysctl reset":
+      path 	 => ['/usr/sbin'],
+      command	 => 'sysctl -p',
+      require	 => [ File['/etc/sysctl.conf'] ],
+    }
+
     exec { "install pygresql modules1":
       path 	 => ['/usr/bin'],
       command	 => 'pip --retries=50 --timeout=300 install pg8000 simplejson unittest2 pycrypto pygresql pyyaml lockfile paramiko psi',
@@ -102,7 +112,7 @@ class hawq {
       path 	 => ['/usr/bin', '/usr/lib/hawq/bin/lib'],
       # Silly init will ask if I am really sure I want to init the cluster
       command	 => 'bash -x run-init.sh master',
-      require	 => [ Package['hawq'], Exec ['install pygresql modules2'] ],
+      require	 => [ Package['hawq'], Exec ['sysctl reset', 'install pygresql modules2'] ],
     }
 
 ## TODO The expectation is that init will start the service. I don't think so...
