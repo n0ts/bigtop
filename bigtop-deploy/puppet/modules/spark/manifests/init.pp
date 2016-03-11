@@ -49,14 +49,19 @@ class spark {
       require => Package['spark-core'],
     }
 
-    package { 'spark-extras':
+    package { 'spark-R':
+      ensure  => latest,
+      require => Package['spark-core'],
+    }
+
+     package { 'spark-extras':
       ensure  => latest,
       require => Package['spark-core'],
     }
   }
 
   class master {
-    include common   
+    include common
 
     package { "spark-master":
       ensure => latest,
