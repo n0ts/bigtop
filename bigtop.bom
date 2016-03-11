@@ -69,8 +69,8 @@ bigtop {
 /** Base Configuration of the mirror and archives */
   version = "1.2.0-SNAPSHOT"
   stack {
-    'jdk' { version = '1.7'; version_base = version }
-    'scala' { version = '2.10.4'; version_base = version }
+    'jdk' { version = '1.8'; version_base = version }
+    'scala' { version = '2.11.8'; version_base = version }
   }
   apache {
     APACHE_MIRROR = "http://apache.osuosl.org"
@@ -285,7 +285,7 @@ bigtop {
       name    = 'spark'
       pkg     = 'spark-core'
       relNotes = 'Apache Spark'
-      version { base = '1.5.1'; pkg = base; release = 1 }
+      version { base = '1.6.0'; pkg = base; release = 1 }
       tarball { destination = "$name-${version.base}.tar.gz"
                 source      = "$name-${version.base}.tgz" }
       url     { download_path = "/$name/$name-${version.base}"
